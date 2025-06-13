@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'product.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    
+    <title>Product details</title>
+</head>
+<body>
+    <h1>Product details</h1>
+    <div class="container">
+        <div class="left-portion">
+            <div class="static-cont">
+                <div class="img">
+                <img src="{{product.image.url}}" alt="">
+            </div>
+            <div class="btns">
+                <button class="cart"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</button>
+                <button class="buy"><i class="fa-solid fa-bolt-lightning"></i> BUY NOW</button>
+            </div>
+            </div>
+        </div>
+        <div class="right-portion">
+            <div class="name">
+                <p>{{product.name}}</p>
+            </div>
+            <div class="price">
+                <span class="spl-price">Special price</span>
+                <div class="price-list">
+                    <span class="off-price">₹{{product.offerPrice}}</span>
+                    <span class="org-price">₹{{product.originalPrice}}</span>
+                    <span class="off-perc">{{product.offer}}% off</span>
+                </div>
+            </div>
+            <div class="available-offers">
+                <h3>Available offers</h3>
+                <ul>
+                    {% for offer in product.availableOffers.splitlines %}
+                    <li>
+                        <div class="checkmark">✅</div>
+                        <p>{{offer}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="highlights">
+                <h3>Highlights</h3>
+                <ul>
+                    {% for highlight in product.highlights.splitlines %}
+                    <li>
+                        <div class="righthand">👉</div>
+                        <p>{{highlight}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="seller">
+                <h3>Seller : </h3>
+                <span>{{product.seller}}</span>
+            </div>
+            <div class="desc">
+                <h3>Description</h3>
+                <p>{{product.description}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

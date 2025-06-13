@@ -1,0 +1,134 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+body{
+    height: 97vh;
+    width: 100%;
+    background-color: #f1f3f6;
+}
+h1{
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem;
+}
+.container{
+    display: flex;
+    grid-template-columns: 0.7f 1fr;
+    background-color: #ffffff;
+    width: 80%;
+    height: max-content;
+    margin: -80px auto;
+    padding-bottom: 20px;
+}
+.left-portion{
+    margin-top: 150px;
+    width: 40%;
+}
+.left-portion .static-cont{
+    position: sticky;
+    top: 50px;
+}
+.left-portion .img{
+    width: 80%;
+    height: 270px;
+    margin: auto;
+}
+
+.left-portion .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.left-portion .btns{
+    margin-top: 30px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+.left-portion .btns button{
+    padding: 15px;
+    width: 37%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #d1cfcffe;
+    font-size: 1em;
+}
+.right-portion{
+    margin-top: 150px;
+}
+.right-portion .name{
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.right-portion .price{
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+.right-portion .price .spl-price{
+    color: #388e81;
+}
+.right-portion .price .price-list{
+    display: flex;
+    gap: 20px;
+    height: 40px;
+    width: max-content;
+}
+.right-portion .price .price-list .off-price{
+    font-size: 2.5rem;
+}
+.right-portion .price .price-list .org-price{
+    position: relative;
+    bottom: -40%;
+    text-decoration: line-through;
+    color: #878787;
+}
+.right-portion .price .price-list .off-perc{
+    position: relative;
+    bottom: -40%;
+    color: #388e81;
+}
+.available-offers{
+    margin-top: 20px;
+    width: 70%;
+}
+.available-offers ul{
+    margin-top: 10px;
+}
+.available-offers ul li{
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.highlights{
+    margin-top: 15px;
+}
+.highlights ul li{
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.seller{
+    margin-top: 15px; 
+    display: flex;
+    gap: 7px;
+}
+.seller h3{
+    width: max-content;
+}
+.seller span{
+    margin-top: 2px;
+}
+.desc{
+    margin-top: 15px;
+}
+.desc p{
+    white-space: pre-line;
+    width: 700px;
+    line-height: 20px;
+}
