@@ -17,8 +17,8 @@
                 <img src="{{product.image.url}}" alt="">
             </div>
             <div class="btns">
-                <button class="cart"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</button>
-                <button class="buy"><i class="fa-solid fa-bolt-lightning"></i> BUY NOW</button>
+                <a href="{% url 'cart' product.id %}"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</a>
+                <a href=""><i class="fa-solid fa-bolt-lightning"></i> BUY NOW</a>
             </div>
             </div>
         </div>

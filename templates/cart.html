@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'cart.css' %}">
+    <title>Cart</title>
+</head>
+<body>
+    <div class="cart-head">
+        <h1>CART</h1>
+    </div>
+    <div class="layouts">
+        <div class="left-portion">
+            {% for product in products %}
+            <div class="cart-items">
+                <div class="img-space">
+                    <div class="img">
+                        <img src="{{product.image.url}}" alt="">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p>{{product.name}}</p>
+                    <span>Seller: {{product.seller}}</span>
+                    <div class="price-list">
+                        <span class="org-price">₹{{product.originalPrice}}</span>
+                        <span class="off-price">₹{{product.offerPrice}}</span>
+                        <span class="off-perc">{{product.offer}}% off</span>
+                        <span class="qnty">Quantity: {{product.quantity}}</span>
+                    </div>
+                    <span class="protec">+ ₹99 protection fee</span> <br>
+                    <button>Remove</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="right-portion">
+            <h2>PRICE DETAILS</h2>
+            <hr>
+            <div class="details">
+                {% if count_gt_1 %}
+                <span>Price ({{count}} items)</span>
+                {% else %}
+                <span>Price ({{count}} item)</span>
+                {% endif %}
+                <span>₹{{price}}</span>
+            </div>
+            <div class="discount">
+                <span>Discount</span>
+                <span class="disc">-₹{{discount}}</span>
+            </div>
+            <div class="prot-fee">
+                <span>Protection fee</span>
+                <span>₹{{protection_fee}}</span>
+            </div>
+            <hr class="hr">
+            <div class="amt">
+                <span>Total Amount</span>
+                <span>₹{{tot_amount}}</span>
+            </div>
+            <hr class="hr">
+            <div class="savings">
+                <p>You will save ₹{{savings}} on this order</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

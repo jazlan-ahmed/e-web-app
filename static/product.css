@@ -22,6 +22,7 @@ h1{
     height: max-content;
     margin: -80px auto;
     padding-bottom: 20px;
+    box-shadow: 0px 0px 3px -1px black;
 }
 .left-portion{
     margin-top: 150px;
@@ -48,7 +49,7 @@ h1{
     gap: 30px;
     justify-content: center;
 }
-.left-portion .btns button{
+.left-portion .btns a{
     padding: 15px;
     width: 37%;
     border: none;
@@ -56,6 +57,9 @@ h1{
     cursor: pointer;
     background-color: #d1cfcffe;
     font-size: 1em;
+    text-decoration: none;
+    color: black;
+    text-align: center;
 }
 .right-portion{
     margin-top: 150px;
@@ -131,4 +135,5 @@ h1{
     white-space: pre-line;
     width: 700px;
     line-height: 20px;
+    text-align: justify;
 }

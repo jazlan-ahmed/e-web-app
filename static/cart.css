@@ -1,0 +1,160 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+body{
+    width: 100%;
+}
+.cart-head{
+    width: 100%;
+    height: 55px;
+    background-color: #2874f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    letter-spacing: 3px;
+    box-shadow: 0px 0px 3px 1px black;
+    position: sticky;
+    top: 0px;
+}
+.layouts{
+    width: 100%;
+    height: max-content ;
+    background-color: #f1f3f6;
+    margin: auto;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding-bottom: 15px;
+}
+.layouts .left-portion{
+    margin-top: 20px;
+    width: 55%;
+    height: max-content;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 2px -1px black;
+}
+.layouts .right-portion{
+    margin-top: 20px;
+    width: 30%;
+    height: max-content;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 2px -1px black;
+    position: sticky;
+    top: 75px;
+    padding-bottom: 30px;
+}
+.layouts .left-portion .cart-items{
+    display: flex;
+    width: 100%;
+    height: max-content;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c7c5c5;
+}
+.layouts .left-portion .cart-items .img-space{
+    width: 30%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.layouts .left-portion .cart-items .img-space .img{
+    width: 80%;
+    height: 60%;
+}
+.layouts .left-portion .cart-items .img-space .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.layouts .left-portion .cart-items .product-info p{
+    font-size: 1.2rem;
+    font-weight: 550;
+}
+.layouts .left-portion .cart-items .product-info span{
+    display: inline-block;
+    color: #878787;
+    margin-top: 10px;
+}
+.layouts .left-portion .cart-items .product-info .price-list .org-price{
+    text-decoration: line-through;
+}
+.layouts .left-portion .cart-items .product-info .price-list .off-price{
+    color: black;
+    font-size: 1.5rem;
+    margin-left: 5px;
+}
+.layouts .left-portion .cart-items .product-info .price-list .off-perc{
+    color: #388e3c;
+    font-weight: 550;
+    margin-left: 5px;
+}
+.layouts .left-portion .cart-items .product-info .price-list .qnty{
+    display: inline-block;
+    padding-left: 80px;
+    color: black;
+}
+.layouts .left-portion .cart-items .product-info .protec{
+    color: black;
+}
+.layouts .left-portion .cart-items .product-info button{
+    margin-top: 15px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(196, 7, 7);
+    color: white;
+    cursor: pointer;
+    &:hover{
+        background-color: rgb(158, 18, 18);
+    }
+}
+.layouts .right-portion h2{
+    padding: 10px 20px;
+    color: #878787;
+}
+.layouts .right-portion hr{
+  border: none;
+  background-color: #878787;
+  height: 0.2px;
+  width: 95%;
+  margin: auto;
+}
+.layouts .right-portion .details,
+.layouts .right-portion .discount,
+.layouts .right-portion .prot-fee,
+.layouts .right-portion .amt{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 25px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+.layouts .right-portion .prot-fee,
+.layouts .right-portion .amt{
+    margin-bottom: 15px;
+}
+.layouts .right-portion .discount .disc{
+    color:#388e3c;
+    font-weight: 550;
+}
+.layouts .right-portion .amt{
+    margin: 30px 0px;
+}
+.layouts .right-portion .hr{
+    width: 90%;
+    margin: auto;
+}
+.layouts .right-portion .savings{
+    text-align: center;
+    color:#388e3c;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 20px;
+}
