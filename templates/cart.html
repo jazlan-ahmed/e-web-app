@@ -1,18 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'cart.css' %}">
     <title>Cart</title>
 </head>
+
 <body>
     <div class="cart-head">
         <h1>CART</h1>
     </div>
     <div class="layouts">
         <div class="left-portion">
+            {% if products %}
             {% for product in products %}
             <div class="cart-items">
                 <div class="img-space">
@@ -30,10 +33,22 @@
                         <span class="qnty">Quantity: {{product.quantity}}</span>
                     </div>
                     <span class="protec">+ ₹99 protection fee</span> <br>
-                    <button>Remove</button>
+                    <form action="{% url 'remove-from-cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="empty">
+                <p>Your cart is empty!</p>
+                <a href="index">Shop now</a>
+            </div>
+            {% endif%}
+            <div class="checkout">
+                <a href="">CHECKOUT</a>
+            </div>
         </div>
         <div class="right-portion">
             <h2>PRICE DETAILS</h2>

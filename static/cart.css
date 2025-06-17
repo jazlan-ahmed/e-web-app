@@ -6,6 +6,7 @@
 }
 body{
     width: 100%;
+    background-color: #f1f3f6;
 }
 .cart-head{
     width: 100%;
@@ -19,11 +20,11 @@ body{
     box-shadow: 0px 0px 3px 1px black;
     position: sticky;
     top: 0px;
+    z-index: 1;
 }
 .layouts{
     width: 100%;
     height: max-content ;
-    background-color: #f1f3f6;
     margin: auto;
     display: flex;
     gap: 20px;
@@ -51,10 +52,22 @@ body{
     display: flex;
     width: 100%;
     height: max-content;
-    border-radius: 5px;
     margin-top: 10px;
     padding-bottom: 15px;
     border-bottom: 1px solid #c7c5c5;
+}
+.layouts .left-portion .empty{
+    padding: 20px 0px;
+    text-align: center;
+}
+.layouts .left-portion .empty p{
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.layouts .left-portion .empty a{
+    color: black;
+    font-size: 1.2rem;
 }
 .layouts .left-portion .cart-items .img-space{
     width: 30%;
@@ -102,7 +115,9 @@ body{
 .layouts .left-portion .cart-items .product-info .protec{
     color: black;
 }
-.layouts .left-portion .cart-items .product-info button{
+.layouts .left-portion .cart-items .product-info form button{
+    position: relative;
+    display: inline-block;
     margin-top: 15px;
     margin-left: 10px;
     padding: 10px 20px;
@@ -111,9 +126,32 @@ body{
     background-color: rgb(196, 7, 7);
     color: white;
     cursor: pointer;
+    text-decoration: none;
     &:hover{
         background-color: rgb(158, 18, 18);
     }
+}
+.layouts .left-portion .checkout{
+    height: 80px;
+    position: relative;
+    box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+    position: sticky;
+    bottom: 0px;
+    background-color: inherit;
+}
+.layouts .left-portion .checkout a{
+    text-decoration: none;
+    color: white;
+    background-color: #fb641b;
+    padding: 17px 60px;
+    position: absolute;
+    bottom: 50%;
+    right: 5%;
+    transform: translateY(50%);
+    border-radius: 4px;
+    font-weight: 550;
+    font-size: 1.1rem;
 }
 .layouts .right-portion h2{
     padding: 10px 20px;
@@ -157,4 +195,9 @@ body{
     font-size: 1.2rem;
     font-weight: 600;
     margin-top: 20px;
+}
+.checkout-layout{
+    width: 55%;
+    height: 50px;
+    background-color: #fff;
 }

@@ -1,5 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Cart
+from django.shortcuts import render
+from .form import ContactForm
+
 # Create your views here.
 
 def index(request):
@@ -31,7 +34,7 @@ def add_to_cart(request, id):
             seller = product.seller,
             quantity = 1,
         )
-    return render(request, 'view_cart.html')
+    return render(request, 'go_to_cart.html')
 
 def view_cart(request):
     cart_item = Cart.objects.all()
@@ -63,3 +66,21 @@ def view_cart(request):
             'tot_amount': total_amount,
             'count_gt_1': quantity > 1
     })
+
+def remove_item_from_cart(request, id):
+    item = get_object_or_404(Cart, pk=id)
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete()
+    return render(request, 'redirect_to_cart.html')
+
+def contact_view(request):
+    form = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            return render(request, 'success.html', {'form' : data})
+    return render(request, 'contact.html', {'form' : form})
