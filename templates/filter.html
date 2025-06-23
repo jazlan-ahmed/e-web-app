@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>E-SHOP</title>
 </head>
-
 <body>
     <div class="nav-bar">
         <div class="logo">
@@ -39,27 +37,11 @@
     </div>
 
     <div class="content">
-        <div class="filter">
-            <h1>FILTERS</h1>
-            <h3>COMPANIES</h3>
-            <div class="company-list">
-                <form action="" method="get">
-                    {% for product in products %}
-                    <div class="chk-box">
-                        <label><input type="checkbox" name="company" value="{{product.company}}" 
-                            {% if product.company in companies %}checked{% endif %}>
-                            {{product.company|upper}}</label>
-                    </div>
-                    {% endfor %}
-                    <div class="btn">
-                        <button type="submit">Apply filters</button>
-                    </div>
-                </form>
-            </div>
+        <!-- <div class="filter">
+
         </div>
 
         <div class="items-layout">
-            {% if not companies %}
             {% for product in products %}
             <div class="product">
                 <div class="img">
@@ -76,31 +58,8 @@
                 </div>
             </div>
             {% endfor%}
-            {% else %}
-                {% for company in companies %}
-                    {% for product in products %}
-                        {% if company == product.company %}
-                            <div class="product">
-                                <div class="img">
-                                    <img src="{{product.image.url}}" alt="">
-                                </div>
-                                <div class="details">
-                                    <span>{{product.name}}</span>
-                                    <div class="price-details">
-                                        <span class="offer-price">₹{{product.offerPrice}}</span>
-                                        <span class="original-price">₹{{product.originalPrice}}</span>
-                                        <span class="offer-percent">{{product.offer}}% off</span>
-                                    </div>
-                                    <a href="{% url 'product-details' product.id %}"><button>view more</button></a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            {% endif %}
-            
-        </div>
+        </div> -->
+        <h1>{{data}}</h1>
     </div>
 </body>
-
 </html>

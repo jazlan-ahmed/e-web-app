@@ -12,6 +12,7 @@ class Product(models.Model):
     seller = models.CharField(max_length=50)
     description = models.TextField()
     image = models.ImageField(upload_to='images')
+    company = models.TextField(max_length=50)
     
 class Cart(models.Model):
     name = models.CharField(max_length=100)
@@ -20,3 +21,9 @@ class Cart(models.Model):
     offerPrice = models.IntegerField()
     seller = models.CharField(max_length=50)
     quantity = models.IntegerField()
+
+class Filter(models.Model):
+    name = models.CharField(max_length=100)
+    originalPrice = models.IntegerField()
+    offerPrice = models.IntegerField()
+    image = models.ImageField(upload_to='filters')

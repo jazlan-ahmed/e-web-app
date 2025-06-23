@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from .models import Product, Cart
 from django.shortcuts import render
 from .form import ContactForm
@@ -10,6 +10,9 @@ def index(request):
     for product in products:
         if product.originalPrice > 0:
             product.offer = round(((product.originalPrice - product.offerPrice) / product.originalPrice) * 100)
+    companies = request.GET.getlist('company')
+    if companies:
+        return render(request, 'index.html', {'companies' : companies, 'products' : products})
     return render(request, 'index.html', {'products' : products})
 
 def product(request, id):
@@ -75,12 +78,3 @@ def remove_item_from_cart(request, id):
     else:
         item.delete()
     return render(request, 'redirect_to_cart.html')
-
-def contact_view(request):
-    form = ContactForm()
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            return render(request, 'success.html', {'form' : data})
-    return render(request, 'contact.html', {'form' : form})
