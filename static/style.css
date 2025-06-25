@@ -134,6 +134,7 @@
     margin-top: 20px;
 }
 .content .filter .company-list .btn button{
+    display: none;
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #888888;

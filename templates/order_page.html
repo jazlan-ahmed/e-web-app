@@ -1,0 +1,290 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'order_page.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="order-head">
+        <h1>ORDERS</h1>
+    </div>
+    <div class="layouts">
+        <div class="left-portion">
+            <div class="delivery-addr">
+                <h3>DELIVERY ADDRESS</h3>
+            </div>
+            {% if not addresses %}
+            <div class="new-addr">
+                <h3>ADD A NEW ADDRESS</h3>
+                <div class="form">
+                    <form action="" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="name">
+                            <div class="first-name">
+                            {{form.first_name}}
+                            {% for error in form.first_name.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+                            <div class="last-name">
+                                {{form.last_name}}
+                                {% for error in form.last_name.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="integers">
+                            <div class="mobile">
+                                {{form.mobile}}
+                                {% for error in form.mobile.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="pincode">
+                                {{form.pincode}}
+                                {% for error in form.pincode.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="address">
+                            {{form.address}}
+                            {% for error in form.address.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="dist-state">
+                            <div class="city">
+                                {{form.city}}
+                                {% for error in form.city.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="state">
+                                {{form.state}}
+                                {% for error in form.state.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="optionals">
+                            <div class="landmark">
+                                {{form.landmark}}
+                                {% for error in form.landmark.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="alternative_mobile">
+                                {{form.alternative_mobile}}
+                                {% for error in form.alternative_mobile.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="submit-btn">
+                            <button type='submit'>SAVE AND DELIVER HERE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            {% for address in addresses %}
+            <div class="show-addr">
+                <div class="adr-content">
+                    <div class="radio-btn" onclick="document.getElementById('{{address.id}}').checked = true">
+                        <input type="radio" name="delivery" id="{{address.id}}" value="{{address.id}}">
+                    </div>
+                    <div class="address-info" onclick="document.getElementById('{{address.id}}').checked = true">
+                        <p> <b>{{address.first_name}} {{address.last_name}} </b></p>
+                        <p><b>Ph: </b>{{address.mobile}}</p>
+                        <p>{{address.address}}, {{address.city}}</p>
+                        <p>{{address.state}} <b>- {{address.pincode}}</b></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="add-addr">
+                <div class="div">
+                    <h4>+ Add a new Address</h4>
+                </div>
+                <div class="new-addr">
+                    <h3>ADD A NEW ADDRESS</h3>
+                    <div class="form">
+                        <form action="" method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="name">
+                                <div class="first-name">
+                                {{form.first_name}}
+                                {% for error in form.first_name.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                                </div>
+                                <div class="last-name">
+                                    {{form.last_name}}
+                                    {% for error in form.last_name.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="integers">
+                                <div class="mobile">
+                                    {{form.mobile}}
+                                    {% for error in form.mobile.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                <div class="pincode">
+                                    {{form.pincode}}
+                                    {% for error in form.pincode.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="address">
+                                {{form.address}}
+                                {% for error in form.address.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="dist-state">
+                                <div class="city">
+                                    {{form.city}}
+                                    {% for error in form.city.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                <div class="state">
+                                    {{form.state}}
+                                    {% for error in form.state.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="optionals">
+                                <div class="landmark">
+                                    {{form.landmark}}
+                                    {% for error in form.landmark.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                <div class="alternative_mobile">
+                                    {{form.alternative_mobile}}
+                                    {% for error in form.alternative_mobile.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="submit">SAVE AND DELIVER HERE</button>
+                                <button class="cancel-btn" type="button" onclick="hideForm()">CANCEL</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="order-list">
+                <h3>ORDER SUMMARY</h3>
+            </div>
+            {% for order in orders %}
+            <div class="cart-items">
+                <div class="img-space">
+                    <div class="img">
+                        <img src="{{order.image.url}}" alt="">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p>{{order.name}}</p>
+                    <span>Seller: {{order.seller}}</span>
+                    <div class="price-list">
+                        <span class="org-price">₹{{order.originalPrice}}</span>
+                        <span class="off-price">₹{{order.offerPrice}}</span>
+                        <span class="off-perc">{{order.offer}}% off</span>
+                        <span class="qnty">Quantity: {{order.quantity}}</span>
+                    </div>
+                    <span class="protec">+ ₹99 protection fee</span> <br>
+                    <form action="{% url 'remove_orders' order.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="checkout">
+                <a href="" onclick="verifyAddress()">PROCEED TO PAYMENTS</a>
+            </div>
+        </div>
+        <div class="right-portion">
+            <h2>PRICE DETAILS</h2>
+            <hr>
+            <div class="details">
+                {% if count_gt_1 %}
+                <span>Price ({{count}} items)</span>
+                {% else %}
+                <span>Price ({{count}} item)</span>
+                {% endif %}
+                <span>₹{{price}}</span>
+            </div>
+            <div class="discount">
+                <span>Discount</span>
+                <span class="disc">-₹{{discount}}</span>
+            </div>
+            <div class="prot-fee">
+                <span>Protection fee</span>
+                <span>₹{{protection_fee}}</span>
+            </div>
+            <hr class="hr">
+            <div class="amt">
+                <span>Total Payable</span>
+                <span>₹{{tot_amount}}</span>
+            </div>
+            <hr class="hr">
+            <div class="savings">
+                <p>You will save ₹{{savings}} on this order</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const form = document.querySelector('.layouts .left-portion .add-addr .new-addr');
+        form.style.display = 'none';
+
+        document.querySelector('.div').addEventListener('click', () => {
+            form.style.display = 'block';
+        })
+
+        function hideForm(){
+            form.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            savedRadioButton = localStorage.getItem('key')
+            if(savedRadioButton){
+                const radios = document.querySelectorAll('input[type="radio"][name="delivery"]');
+                radios.forEach(radio => {
+                    if(radio.value == savedRadioButton){
+                        radio.checked = true
+                    }
+                })
+            }
+        })
+
+        function verifyAddress(){
+            const radioButtons = document.querySelectorAll('input[type="radio"][name="delivery"]')
+            const selectedRadioButton = Array.from(radioButtons).find(radio => radio.checked)
+
+            if (selectedRadioButton){
+                localStorage.setItem('key', selectedRadioButton.value)
+            }
+            else{
+                alert("Please select a delivery address")
+            }
+        }
+
+        
+    </script>
+</body>
+</html>

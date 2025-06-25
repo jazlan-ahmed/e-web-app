@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Product, Cart
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Cart, Orders, Address
 from django.shortcuts import render
-from .form import ContactForm
+from .form import UserAddress
 
 # Create your views here.
 
@@ -24,7 +24,7 @@ def product(request, id):
 def add_to_cart(request, id):
     product = get_object_or_404(Product, pk=id)
     cart_item = Cart.objects.filter(name = product.name).first()
-    
+
     if cart_item:
         cart_item.quantity += 1
         cart_item.save()
@@ -78,3 +78,76 @@ def remove_item_from_cart(request, id):
     else:
         item.delete()
     return render(request, 'redirect_to_cart.html')
+
+def order(request):
+    items = Cart.objects.all()
+    if not Orders.objects.all():
+        for item in items:
+            Orders.objects.get_or_create(
+            name=item.name,
+            image=item.image,
+            originalPrice=item.originalPrice,
+            offerPrice=item.offerPrice,
+            seller=item.seller,
+            quantity=item.quantity
+            )
+
+    orders = Orders.objects.all()
+    form = UserAddress()
+    if request.method == 'POST':
+        form = UserAddress(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            Address.objects.get_or_create(
+                first_name = data['first_name'],
+                last_name = data['last_name'],
+                mobile = data['mobile'],
+                pincode = data['pincode'],
+                address = data['address'],
+                city = data['city'],
+                state = data['state'],
+                landmark = data['landmark'],
+                alternative_mobile = data['alternative_mobile']
+            )
+
+    quantity = 0
+    price = 0
+    discount = 0
+    protection_fee = 0
+
+    for item in orders:
+        price += item.originalPrice*item.quantity
+    for item in orders:
+        discount += (item.originalPrice - item.offerPrice)*item.quantity
+    for item in orders:
+        protection_fee += 99*item.quantity
+    for item in orders:
+        quantity += item.quantity
+    for item in orders:
+        item.offer = round(((item.originalPrice - item.offerPrice)/item.originalPrice)*100)
+        
+    total_amount = (price+protection_fee)-discount
+    savings = discount - protection_fee
+
+    address = Address.objects.all()
+    return render(request, 'order_page.html', {'form' : form,
+            'orders' : orders,
+            'addresses' : address,
+            'count' : quantity,
+            'price': price,
+            'discount': discount,
+            'protection_fee': protection_fee,
+            'savings': savings,
+            'tot_amount': total_amount,
+            'count_gt_1': quantity > 1
+        })
+    
+def remove_from_orders(request, id):
+
+    order_qnty = get_object_or_404(Orders, pk=id)
+    if order_qnty.quantity > 1:
+        order_qnty.quantity -=1
+        order_qnty.save()
+    else:
+        order_qnty.delete()
+    return redirect('orders')

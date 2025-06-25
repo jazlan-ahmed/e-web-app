@@ -52,7 +52,7 @@
                     </div>
                     {% endfor %}
                     <div class="btn">
-                        <button type="submit">Apply filters</button>
+                        <button type="submit" id="apply-btn">Apply filters</button>
                     </div>
                 </form>
             </div>
@@ -80,27 +80,44 @@
                 {% for company in companies %}
                     {% for product in products %}
                         {% if company == product.company %}
-                            <div class="product">
-                                <div class="img">
-                                    <img src="{{product.image.url}}" alt="">
-                                </div>
-                                <div class="details">
-                                    <span>{{product.name}}</span>
-                                    <div class="price-details">
-                                        <span class="offer-price">₹{{product.offerPrice}}</span>
-                                        <span class="original-price">₹{{product.originalPrice}}</span>
-                                        <span class="offer-percent">{{product.offer}}% off</span>
-                                    </div>
-                                    <a href="{% url 'product-details' product.id %}"><button>view more</button></a>
-                                </div>
+                        <div class="product">
+                            <div class="img">
+                                <img src="{{product.image.url}}" alt="">
                             </div>
+                            <div class="details">
+                                <span>{{product.name}}</span>
+                                <div class="price-details">
+                                    <span class="offer-price">₹{{product.offerPrice}}</span>
+                                    <span class="original-price">₹{{product.originalPrice}}</span>
+                                    <span class="offer-percent">{{product.offer}}% off</span>
+                                </div>
+                                <a href="{% url 'product-details' product.id %}"><button>view more</button></a>
+                            </div>
+                        </div>
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endif %}
-            
+
         </div>
     </div>
+    <script>
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="company"]');
+        const applyButton = document.getElementById('apply-btn');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            applyButton.style.display = anyChecked ? 'inline-block' : 'none';
+        });
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                applyButton.style.display = anyChecked ? 'inline-block' : 'none';
+            });
+        });
+    </script>
+
 </body>
 
 </html>

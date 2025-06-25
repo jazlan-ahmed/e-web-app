@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +8,21 @@
 </head>
 <body>
     <h1>success</h1>
-    <span>{{ form.first_name }}</span> <br>
-    <span>{{ form.last_name }}</span> <br>
-    <span>{{ form.email }}</span>
-    <p>{{ form.message }}</p>
-</body>
+    <span>{{ data.first_name }}</span> <br>
+    <span>{{ data.last_name }}</span> <br>
+    <span>{{ data.mobile }}</span> <br>
+    <span>{{ data.pincode }}</span> <br>
+    <span>{{ data.address }}</span> <br>
+    <span>{{ data.city }}</span> <br>
+    <span>{{ data.state }}</span> <br>
+    <span>{{ data.landmark }}</span> <br>
+    {% for order in orders %}
+    <span>{{ order.name }}</span> <br>
+    <span>{{ order.image }}</span> <br>
+    <span>{{ order.originalPrice }}</span> <br>
+    <span>{{ order.offerPrice }}</span> <br>
+    <span>{{ order.seller }}</span> <br>
+    <span>{{ order.quantity }}</span> <br>
+    {% endfor %}
+    </body>
 </html>

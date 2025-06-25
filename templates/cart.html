@@ -43,11 +43,11 @@
             {% else %}
             <div class="empty">
                 <p>Your cart is empty!</p>
-                <a href="index">Shop now</a>
+                <a href="{% url 'index' %}">Shop now</a>
             </div>
             {% endif%}
             <div class="checkout">
-                <a href="">CHECKOUT</a>
+                <a href="{% url 'orders' %}">CHECKOUT</a>
             </div>
         </div>
         <div class="right-portion">
