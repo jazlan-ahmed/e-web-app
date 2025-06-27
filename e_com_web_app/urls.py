@@ -13,5 +13,7 @@ urlpatterns = [
     path('remove-from-cart/<int:id>/', views.remove_item_from_cart, name='remove-from-cart'),
     path('orders/', views.order, name='orders'),
     path('orders/<int:id>/', views.remove_from_orders, name='remove_orders'),
+    path('login/', views.user_login, name='login'),
+    path('register/', views.user_registeration, name='register'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

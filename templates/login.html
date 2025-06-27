@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="form">
+        <h1>Login Form</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+                {{ field }}
+                
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="btn">
+                <button type="submit" class="submit-btn">Login</button>
+            </div>
+            <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        </form>
+    </div>
+</body>
+</html>
