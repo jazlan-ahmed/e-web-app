@@ -25,7 +25,11 @@
         <div class="nav-items">
             <div class="login">
                 <i class="fa-regular fa-circle-user"></i>
+                {% if not user.is_authenticated %}
                 <span>Login</span>
+                {% else %}
+                <span>{{user.username}}</span>
+                {% endif %}
             </div>
             <div class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>

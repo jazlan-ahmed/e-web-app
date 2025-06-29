@@ -113,7 +113,7 @@
                 <div class="new-addr">
                     <h3>ADD A NEW ADDRESS</h3>
                     <div class="form">
-                        <form action="" method="post" novalidate>
+                        <form method="post" novalidate>
                             {% csrf_token %}
                             <div class="name">
                                 <div class="first-name">
@@ -178,16 +178,16 @@
                                 </div>
                             </div>
                             <div class="submit-btn">
-                                <button type="submit">SAVE AND DELIVER HERE</button>
+                                <button type="submit">SAVE</button>
                                 <button class="cancel-btn" type="button" onclick="hideForm()">CANCEL</button>
                             </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        <div class="order-list">
+            <div class="order-list">
                 <h3>ORDER SUMMARY</h3>
             </div>
             {% for order in orders %}
@@ -207,7 +207,8 @@
                         <span class="qnty">Quantity: {{order.quantity}}</span>
                     </div>
                     <span class="protec">+ ₹99 protection fee</span> <br>
-                    <form action="{% url 'remove_orders' order.id %}" method="post">
+                    <form action="{% url 'remove_orders' %}" method="post">
+                        <input type="hidden" name="order_id" value="{{order.id}}">
                         {% csrf_token %}
                         <button type="submit">Remove</button>
                     </form>
@@ -284,7 +285,6 @@
             }
         }
 
-        
     </script>
 </body>
 </html>

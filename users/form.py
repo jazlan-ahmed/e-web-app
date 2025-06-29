@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 state_list = [
     ('', '--Select State--'),  
     ('Andhra Pradesh', 'Andhra Pradesh'),
@@ -120,3 +122,33 @@ class UserAddress(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={'placeholder':'Alternavtive Mobile (Optional)'}),
     )
+
+
+class UserRegisterForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        
+        if confirm_password != password:
+            self.add_error('confirm_password', 'Passwords do not match each other')
+        
+        if username:
+            if len(username)>10:
+                self.add_error('username', 'username should not exceed 10 characters')
+            if not any(char.isdigit() for char in username):
+                self.add_error('username', 'username must contain a number')
+    
+    
+class UserLoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
