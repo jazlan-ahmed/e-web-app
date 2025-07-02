@@ -4,7 +4,7 @@ A simple and customizable e-commerce website built with Django. This project pro
 
 ---
 
-<img src= 'static/ecom_web[1].png' alt='Index'>
+![E-Commerce Web Preview](static/ecom_web.png)
 
 ---
 ## 📦 Features
