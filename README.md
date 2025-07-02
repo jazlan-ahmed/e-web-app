@@ -3,6 +3,10 @@
 A simple and customizable e-commerce website built with Django. This project provides the core features of an online store, including product listings, shopping cart, user authentication, and order management.
 
 ---
+
+<img src= 'static/ecom_web[1].png' alt='Index'>
+
+---
 ## 📦 Features
 
 - User Registration, Login, Logout
