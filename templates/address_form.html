@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Add Address</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Address</button>
+</form>
+
+<!-- jQuery for dynamic dropdowns -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // Load states when country changes
+  $("#id_country").change(function () {
+      var country = $(this).val();
+      $.ajax({
+          url: "{% url 'ajax_load_states' %}",
+          data: { 'country': country },
+          success: function (data) {
+              $("#id_state").empty();
+              $("#id_state").append('<option value="">--Select State--</option>');
+              data.states.forEach(function(state) {
+                  $("#id_state").append('<option value="'+state+'">'+state+'</option>');
+              });
+              $("#id_city").empty().append('<option value="">--Select City--</option>');
+          }
+      });
+  });
+
+  // Load cities when state changes
+  $("#id_state").change(function () {
+      var country = $("#id_country").val();
+      var state = $(this).val();
+      $.ajax({
+          url: "{% url 'ajax_load_cities' %}",
+          data: { 'country': country, 'state': state },
+          success: function (data) {
+              $("#id_city").empty();
+              $("#id_city").append('<option value="">--Select City--</option>');
+              data.cities.forEach(function(city) {
+                  $("#id_city").append('<option value="'+city+'">'+city+'</option>');
+              });
+          }
+      });
+  });
+</script>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load currency_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
             </div>
             <div class="btns">
                 <a href="{% url 'cart' product.id %}"><i class="fa-solid fa-cart-shopping"></i> ADD TO CART</a>
-                <a href=""><i class="fa-solid fa-bolt-lightning"></i> BUY NOW</a>
+                <a href="{% url 'buy-now' product.id %}"><i class="fa-solid fa-bolt-lightning"></i> BUY NOW</a>
             </div>
             </div>
         </div>
@@ -28,10 +29,16 @@
             </div>
             <div class="price">
                 <span class="spl-price">Special price</span>
+                {% convert_product_price product user as price_info %}
                 <div class="price-list">
-                    <span class="off-price">₹{{product.offerPrice}}</span>
-                    <span class="org-price">₹{{product.originalPrice}}</span>
+                    <span class="off-price">{{price_info.currency_symbol}}{{price_info.offer_price}}</span>
+                    <span class="org-price">{{price_info.currency_symbol}}{{price_info.original_price}}</span>
                     <span class="off-perc">{{product.offer}}% off</span>
+                    {% if price_info.is_converted %}
+                    <div class="conversion-note" style="color: #666; font-size: 12px; margin-top: 5px;">
+                        <i class="fa-solid fa-exchange-alt"></i> Converted from {{price_info.original_currency}}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="available-offers">

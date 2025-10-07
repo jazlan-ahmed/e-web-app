@@ -36,7 +36,10 @@
             <div class="btn">
                 <button type="submit" class="submit-btn">Login</button>
             </div>
-            <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+            <div class="forgot-password" style="text-align: center; margin: 15px 0;">
+                <a href="{% url 'forgot_password' %}" style="color: #0077cc; text-decoration: none; font-size: 14px;">Forgot your password?</a>
+            </div>
+            <p>Don't have an account? <a href="{% url 'register' %}">Register as Buyer or Seller</a></p>
         </form>
     </div>
 </body>

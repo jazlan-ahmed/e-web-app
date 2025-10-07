@@ -1,4 +1,5 @@
 {% load static %}
+{% load currency_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,19 +27,54 @@
             <div class="login">
                 <i class="fa-regular fa-circle-user"></i>
                 {% if not user.is_authenticated %}
-                <span>Login</span>
-                {% else %}
-                <span>{{user.username}}</span>
+                <a href="{% url 'login' %}"><span>Login</span></a>
+{% else %}
+                <form class="logout-form" action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;text-decoration:underline;">(Logout)</button>
+                </form>
                 {% endif %}
             </div>
+            
+            {% if user.is_authenticated and user.profile.account_type == 'seller' %}
+            <!-- Seller-only navigation items -->
+            <div class="seller-dashboard">
+                <i class="fa-solid fa-tachometer-alt"></i>
+                <a href="{% url 'seller-dashboard' %}">Dashboard</a>
+            </div>
+            <div class="add-product">
+                <i class="fa-solid fa-plus"></i>
+                <a href="{% url 'add-product' %}">Add Product</a>
+            </div>
+            <div class="manage-products">
+                <i class="fa-solid fa-cogs"></i>
+                <a href="{% url 'manage-products' %}">Manage Products</a>
+            </div>
+            {% endif %}
+            
             <div class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <a href="{% url 'view-cart' %}">Cart</a>
             </div>
+            
+            {% if not user.is_authenticated or user.profile.account_type != 'seller' %}
             <div class="seller">
                 <i class="fa-solid fa-store"></i>
                 <span>Become a Seller</span>
             </div>
+            {% endif %}
+            
+            <div class="support">
+                <i class="fa-solid fa-headset"></i>
+                <a href="{% url 'support' %}">Support</a>
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="currency-settings">
+                <i class="fa-solid fa-coins"></i>
+                <a href="{% url 'currency-settings' %}">Currency</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 
@@ -60,9 +96,37 @@
                     </div>
                 </form>
             </div>
+
+            <h3>Categories</h3>
+            <div class="category-list">
+                {% for cat in categories %}
+                <div class="category-row">
+                    <span>{{ cat|upper }}</span>
+                    <a href="{% url 'index' %}?category={{ cat }}"><button>View all</button></a>
+                </div>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="items-layout">
+            {% if popular_products %}
+            <h2>Popular products</h2>
+            <div class="popular-grid">
+                {% for p in popular_products %}
+                <div class="product">
+                    <div class="img">
+                        <img src="{{p.image.url}}" alt="">
+                    </div>
+                    <div class="details">
+                        <span>{{p.name}}</span>
+                        {% show_product_price p user %}
+                        <a href="{% url 'product-details' p.id %}"><button>view more</button></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
             {% if not companies %}
             {% for product in products %}
             <div class="product">
@@ -71,11 +135,7 @@
                 </div>
                 <div class="details">
                     <span>{{product.name}}</span>
-                    <div class="price-details">
-                        <span class="offer-price">₹{{product.offerPrice}}</span>
-                        <span class="original-price">₹{{product.originalPrice}}</span>
-                        <span class="offer-percent">{{product.offer}}% off</span>
-                    </div>
+                    {% show_product_price product user %}
                     <a href="{% url 'product-details' product.id %}"><button>view more</button></a>
                 </div>
             </div>
@@ -90,11 +150,7 @@
                             </div>
                             <div class="details">
                                 <span>{{product.name}}</span>
-                                <div class="price-details">
-                                    <span class="offer-price">₹{{product.offerPrice}}</span>
-                                    <span class="original-price">₹{{product.originalPrice}}</span>
-                                    <span class="offer-percent">{{product.offer}}% off</span>
-                                </div>
+                                {% show_product_price product user %}
                                 <a href="{% url 'product-details' product.id %}"><button>view more</button></a>
                             </div>
                         </div>

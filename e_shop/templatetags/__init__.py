@@ -1,0 +1,1 @@
+# e_shop/templatetags/__init__.py

@@ -56,16 +56,22 @@
                                 <p class="error">{{ error }}</p>
                             {% endfor %}
                         </div>
+                        <div class="country-select">
+                            {{form.country}}
+                            {% for error in form.country.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
                         <div class="dist-state">
-                            <div class="city">
-                                {{form.city}}
-                                {% for error in form.city.errors %}
-                                    <p class="error">{{ error }}</p>
-                                {% endfor %}
-                            </div>
                             <div class="state">
                                 {{form.state}}
                                 {% for error in form.state.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="city">
+                                {{form.city}}
+                                {% for error in form.city.errors %}
                                     <p class="error">{{ error }}</p>
                                 {% endfor %}
                             </div>
@@ -149,16 +155,22 @@
                                     <p class="error">{{ error }}</p>
                                 {% endfor %}
                             </div>
+                            <div class="country-select">
+                                {{form.country}}
+                                {% for error in form.country.errors %}
+                                    <p class="error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
                             <div class="dist-state">
-                                <div class="city">
-                                    {{form.city}}
-                                    {% for error in form.city.errors %}
-                                        <p class="error">{{ error }}</p>
-                                    {% endfor %}
-                                </div>
                                 <div class="state">
                                     {{form.state}}
                                     {% for error in form.state.errors %}
+                                        <p class="error">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                <div class="city">
+                                    {{form.city}}
+                                    {% for error in form.city.errors %}
                                         <p class="error">{{ error }}</p>
                                     {% endfor %}
                                 </div>
@@ -284,6 +296,73 @@
                 alert("Please select a delivery address")
             }
         }
+
+        // Location data for dynamic dropdowns
+        const locationData = {
+            "India": {
+                "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
+                "Delhi": ["New Delhi", "Dwarka", "Saket"],
+                "Karnataka": ["Bangalore", "Mysore"],
+            },
+            "Pakistan": {
+                "Sindh": ["Karachi", "Hyderabad"],
+                "Punjab": ["Lahore", "Faisalabad", "Multan"],
+                "KPK": ["Peshawar", "Abbottabad"],
+            }
+        };
+
+        // Function to populate dropdowns
+        function populateDropdowns() {
+            const countrySelects = document.querySelectorAll('select[name="country"]');
+            const stateSelects = document.querySelectorAll('select[name="state"]');
+            const citySelects = document.querySelectorAll('select[name="city"]');
+
+            countrySelects.forEach((countrySelect, index) => {
+                const stateSelect = stateSelects[index];
+                const citySelect = citySelects[index];
+
+                countrySelect.addEventListener('change', function() {
+                    const selectedCountry = this.value;
+                    
+                    // Clear state and city dropdowns
+                    stateSelect.innerHTML = '<option value="">--Select State--</option>';
+                    citySelect.innerHTML = '<option value="">--Select City--</option>';
+                    
+                    if (selectedCountry && locationData[selectedCountry]) {
+                        const states = Object.keys(locationData[selectedCountry]);
+                        states.forEach(state => {
+                            const option = document.createElement('option');
+                            option.value = state;
+                            option.textContent = state;
+                            stateSelect.appendChild(option);
+                        });
+                    }
+                });
+
+                stateSelect.addEventListener('change', function() {
+                    const selectedCountry = countrySelect.value;
+                    const selectedState = this.value;
+                    
+                    // Clear city dropdown
+                    citySelect.innerHTML = '<option value="">--Select City--</option>';
+                    
+                    if (selectedCountry && selectedState && locationData[selectedCountry][selectedState]) {
+                        const cities = locationData[selectedCountry][selectedState];
+                        cities.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city;
+                            option.textContent = city;
+                            citySelect.appendChild(option);
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize dropdowns when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDropdowns();
+        });
 
     </script>
 </body>

@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block extrahead %}{{ block.super }}
+<style>
+  body.blur-admin #container { filter: blur(8px); transition: filter .15s ease; }
+</style>
+<script>
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      document.body.classList.add('blur-admin');
+    } else {
+      document.body.classList.remove('blur-admin');
+    }
+  });
+</script>
+{% endblock %}

@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'e_com_web_app.middleware.AdminIdleTimeoutMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -75,16 +76,18 @@ WSGI_APPLICATION = 'e_com_web_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES = DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'e_shop',
-        'USER' : 'postgres',
-        'PASSWORD': 'hyrunisadawood',
+        'NAME': 'ecom_db',
+        'USER': 'hanan',
+        'PASSWORD': 'yourpassword',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
     }
 }
+
+    
 
 
 # Password validation
@@ -131,3 +134,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join( BASE_DIR, 'media')
+
+# Sessions & auth
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# Optional: default 2 weeks; keep short to encourage frequent login
+# SESSION_COOKIE_AGE = 1209600
+
+# Email configuration - Always use SMTP for sending actual emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'arbazkhuwaja110@gmail.com'
+EMAIL_HOST_PASSWORD = 'pief umdr wrxl pagq'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+# DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'arbazkhuwaja110@gmail.com')
+DEFAULT_FROM_EMAIL = 'arbazkhuwaja110@gmail.com'
+
+# Custom user model (using default django.contrib.auth.models.User)
+
+# Auth redirects
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
+
+# Support email inbox (configure via env var)
+SUPPORT_INBOX_EMAIL = os.environ.get('SUPPORT_INBOX_EMAIL')

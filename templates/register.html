@@ -12,7 +12,7 @@
         <h1>Registration Form</h1>
         <form method="post" novalidate>
             {% csrf_token %}
-            
+
             {% for field in form %}
             <div class="form-field">
                 {{ field.label_tag }}
@@ -25,6 +25,12 @@
                 {% endif %}
             </div>
             {% endfor %}
+
+            <!-- Account Type Field -->
+            <div class="form-field">
+                <label for="id_account_type">Account Type</label>
+                {{ form.account_type }}
+            </div>
 
             <div class="btn">
                 <button type="submit" class="submit-btn">Register</button>

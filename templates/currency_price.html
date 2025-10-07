@@ -1,0 +1,12 @@
+<div class="price-details">
+    <span class="offer-price">{{ price_info.currency_symbol }}{{ price_info.offer_price }}</span>
+    <span class="original-price">{{ price_info.currency_symbol }}{{ price_info.original_price }}</span>
+    {% if price_info.is_converted %}
+    <small class="conversion-note" style="color: #666; font-size: 11px;">
+        (Converted from {{ price_info.original_currency }})
+    </small>
+    {% endif %}
+    {% if product.offer %}
+    <span class="offer-percent">{{ product.offer }}% off</span>
+    {% endif %}
+</div>

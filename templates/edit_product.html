@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Edit Product - E-SHOP</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .current-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .messages li {
+            list-style: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .messages .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .messages .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .submit-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #0077cc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1><i class="fa-solid fa-edit"></i> Edit Product</h1>
+        
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Product Name *</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error">{{ form.name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.color.id_for_label }}">Color *</label>
+                    {{ form.color }}
+                    {% if form.color.errors %}
+                        <div class="error">{{ form.color.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.originalPrice.id_for_label }}">Original Price *</label>
+                    {{ form.originalPrice }}
+                    {% if form.originalPrice.errors %}
+                        <div class="error">{{ form.originalPrice.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.offerPrice.id_for_label }}">Offer Price *</label>
+                    {{ form.offerPrice }}
+                    {% if form.offerPrice.errors %}
+                        <div class="error">{{ form.offerPrice.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.company.id_for_label }}">Company/Brand *</label>
+                    {{ form.company }}
+                    {% if form.company.errors %}
+                        <div class="error">{{ form.company.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.currency.id_for_label }}">Currency *</label>
+                    {{ form.currency }}
+                    {% if form.currency.errors %}
+                        <div class="error">{{ form.currency.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">Category</label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <div class="error">{{ form.category.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <!-- Empty space for layout -->
+                </div>
+            </div>
+
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}">Product Image</label>
+                    {% if product.image %}
+                        <div>
+                            <p style="color: #666; font-size: 14px; margin-bottom: 5px;">Current image:</p>
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="current-image">
+                        </div>
+                    {% endif %}
+                    <p style="color: #666; font-size: 14px; margin-bottom: 5px;">Choose a new image to replace the current one:</p>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        <div class="error">{{ form.image.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="{{ form.availableOffers.id_for_label }}">Available Offers</label>
+                    {{ form.availableOffers }}
+                    {% if form.availableOffers.errors %}
+                        <div class="error">{{ form.availableOffers.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="{{ form.highlights.id_for_label }}">Highlights</label>
+                    {{ form.highlights }}
+                    {% if form.highlights.errors %}
+                        <div class="error">{{ form.highlights.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}">Description *</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="error">{{ form.description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="error">
+                    {{ form.non_field_errors.0 }}
+                </div>
+            {% endif %}
+
+            <div class="btn">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-save"></i> Update Product
+                </button>
+            </div>
+        </form>
+
+        <a href="{% url 'manage-products' %}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Manage Products
+        </a>
+    </div>
+</body>
+</html>

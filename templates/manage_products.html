@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Manage Products - E-SHOP</title>
+    <style>
+        .manage-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .add-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            background: #218838;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .product-company {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .product-prices {
+            margin-bottom: 10px;
+        }
+        .offer-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-left: 8px;
+        }
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .edit-btn {
+            background: #007bff;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            flex: 1;
+            text-align: center;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            flex: 1;
+            text-align: center;
+        }
+        .edit-btn:hover {
+            background: #0056b3;
+        }
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .no-products i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .messages li {
+            list-style: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .messages .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0077cc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="manage-container">
+        <a href="{% url 'seller-dashboard' %}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="header">
+            <div>
+                <h1><i class="fa-solid fa-cogs"></i> Manage Products</h1>
+                <p>Total Products: {{ products.count }}</p>
+            </div>
+            <a href="{% url 'add-product' %}" class="add-btn">
+                <i class="fa-solid fa-plus"></i> Add New Product
+            </a>
+        </div>
+
+        {% if products %}
+            <div class="products-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% else %}
+                            <div style="height: 200px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #666;">
+                                <i class="fa-solid fa-image" style="font-size: 48px;"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="product-info">
+                            <div class="product-name">{{ product.name }}</div>
+                            <div class="product-company">{{ product.company }}</div>
+                            <div class="product-prices">
+                                <span class="offer-price">{{ product.get_currency_symbol }}{{ product.offerPrice }}</span>
+                                {% if product.originalPrice != product.offerPrice %}
+                                    <span class="original-price">{{ product.get_currency_symbol }}{{ product.originalPrice }}</span>
+                                {% endif %}
+                            </div>
+                            <div style="color: #666; font-size: 12px; margin-bottom: 5px;">
+                                Color: {{ product.color }}
+                            </div>
+                            <div style="color: #666; font-size: 12px;">
+                                Views: {{ product.views }}
+                            </div>
+                            
+                            <div class="product-actions">
+                                <a href="{% url 'edit-product' product.id %}" class="edit-btn">
+                                    <i class="fa-solid fa-edit"></i> Edit
+                                </a>
+                                <a href="{% url 'delete-product' product.id %}" class="delete-btn">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-products">
+                <i class="fa-solid fa-box-open"></i>
+                <h2>No Products Yet</h2>
+                <p>You haven't added any products to your store.</p>
+                <a href="{% url 'add-product' %}" class="add-btn" style="margin-top: 20px; display: inline-block;">
+                    <i class="fa-solid fa-plus"></i> Add Your First Product
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

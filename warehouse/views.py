@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Cart, Orders
 from e_shop.models import Product
 from users.models import Address
-from users.form import UserAddress
+from users.forms import UserAddress
 
 def add_to_cart(request, id):
     product = get_object_or_404(Product, pk=id)
@@ -109,6 +109,7 @@ def order(request):
                 mobile = data['mobile'],
                 pincode = data['pincode'],
                 address = data['address'],
+                country = data['country'],
                 city = data['city'],
                 state = data['state'],
                 landmark = data['landmark'],
@@ -171,6 +172,7 @@ def remove_from_orders(request):
                 mobile = data['mobile'],
                 pincode = data['pincode'],
                 address = data['address'],
+                country = data['country'],
                 city = data['city'],
                 state = data['state'],
                 landmark = data['landmark'],
@@ -189,3 +191,23 @@ def remove_from_orders(request):
             'tot_amount': total_amount,
             'count_gt_1': quantity > 1
         })
+
+def buy_now(request, id):
+    """Direct buy functionality - adds product to cart and redirects to orders page"""
+    product = get_object_or_404(Product, pk=id)
+    
+    # Clear existing cart for instant purchase
+    Cart.objects.all().delete()
+    
+    # Add the selected product to cart
+    Cart.objects.create(
+        name=product.name,
+        image=product.image,
+        originalPrice=product.originalPrice,
+        offerPrice=product.offerPrice,
+        seller=product.seller,
+        quantity=1,
+    )
+    
+    # Redirect directly to order page
+    return redirect('orders')

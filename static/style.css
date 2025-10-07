@@ -9,12 +9,13 @@
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: fixed;
     top: 0%;
     background-color: white;
     box-shadow: 0px 0px 3px -1px black;
     z-index: 1;
+    padding: 0 16px;
 }
 .nav-bar .logo{
     width: 200px;
@@ -29,7 +30,7 @@
     object-fit: fill;
 }
 .nav-bar .search-bar{
-    width: 800px;
+    width: 520px;
     margin-left: 20px;
     display: flex;
     align-items: center;
@@ -59,7 +60,7 @@
     border: none;
     outline: none;
     background-color: transparent;
-    width: 720px;
+    width: 440px;
     font-size: 1.2rem;
     font-weight: 700;
     color: #525355;
@@ -74,25 +75,33 @@
     display: flex;
     font-size: 1.4rem;
 }
-.nav-bar .nav-items .login, .nav-bar .nav-items .cart, .nav-bar .nav-items .seller{
+.nav-bar .nav-items .login, .nav-bar .nav-items .cart, .nav-bar .nav-items .seller, .nav-bar .nav-items .support{
     width: auto;
-    height: 40px;
-    margin-left: 20px;
-    padding: 0px 10px;
+    height: 48px;
+    margin-left: 16px;
+    padding: 0px 8px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 7px;
+    gap: 4px;
     cursor: pointer;
     color: #888888;
-    &:hover{
-        color: black;
-    }
+    text-align: center;
+}
+.nav-bar .nav-items .login:hover, .nav-bar .nav-items .cart:hover, .nav-bar .nav-items .seller:hover, .nav-bar .nav-items .support:hover{
+    color: black;
+}
+.nav-bar .nav-items .login a, .nav-bar .nav-items .cart a, .nav-bar .nav-items .seller a, .nav-bar .nav-items .support a{
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.9rem;
 }
 .nav-bar .nav-items .cart a{
     color: inherit;
     text-decoration: none;
 }
+.logout-form button:hover{ color: black; }
 .nav-bar .nav-items .cart:hover a{
     color: black;
 }

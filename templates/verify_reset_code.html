@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+  <title>Verify Reset Code</title>
+  <style>
+    /* Override login.css centering for this page and let flexbox center the box */
+    .form { max-width: 480px; margin: 0; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 24px; border-radius: 8px; position: static; top: auto; left: auto; transform: none; }
+    .code-inputs { display:flex; gap:10px; justify-content:center; margin: 16px 0; }
+    .code-inputs input { width:48px; height:48px; text-align:center; font-size:1.25rem; }
+    .note { color:#666; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="verify-container" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div class="form">
+      <h1>Verify Reset Code</h1>
+      <p class="note">We've sent a 6-digit password reset code to {{ email }}. Please type the code manually. Pasting is disabled.</p>
+      <p class="note" style="color: #e74c3c; margin-top: 10px;">⏰ This code will expire in 15 minutes.</p>
+      
+      <form method="post" action="{% url 'verify_reset_code' %}" novalidate>
+        {% csrf_token %}
+
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="code-inputs">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" autocomplete="one-time-code" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="code" />
+        </div>
+        <!-- Hidden actual form field -->
+        {{ form.code }}
+        {% if form.code.errors %}<div class="error-message">{{ form.code.errors.0 }}</div>{% endif %}
+        <div class="btn">
+          <button type="submit" class="submit-btn">Verify Code</button>
+        </div>
+      </form>
+      
+      <!-- Resend code section -->
+      <div class="resend-section" style="margin-top: 20px; text-align: center;">
+        <p id="resend-info" style="color: #666; font-size: 0.9rem;">Didn't receive the code?</p>
+        <button id="resend-btn" onclick="resendResetCode()" style="background: #0077cc; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Resend Code</button>
+        <p id="countdown" style="color: #666; font-size: 0.9rem; margin-top: 10px; display: none;"></p>
+      </div>
+      
+      <div class="back-to-login" style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'forgot_password' %}" style="color: #0077cc; text-decoration: none; font-size: 14px;">← Back to Enter Email</a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const boxes = Array.from(document.querySelectorAll('.code'));
+    const hidden = document.getElementById('id_code');
+
+    // Disable paste on visible boxes and hidden input
+    boxes.forEach(b => b.addEventListener('paste', e => e.preventDefault()));
+    hidden.addEventListener('paste', e => e.preventDefault());
+
+    // Auto-focus next and assemble hidden value
+    function updateHidden() {
+      hidden.value = boxes.map(b => b.value).join('');
+    }
+    boxes.forEach((b, idx) => {
+      b.addEventListener('input', (e) => {
+        b.value = b.value.replace(/\D/g,'');
+        if (b.value && idx < boxes.length - 1) boxes[idx+1].focus();
+        updateHidden();
+      });
+      b.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !b.value && idx > 0) boxes[idx-1].focus();
+      });
+    });
+
+    // Initialize
+    updateHidden();
+    
+    // Resend functionality
+    let resendTimer;
+    let resendCountdown = 0;
+    
+    function startCountdown(seconds = 60) {
+      const resendBtn = document.getElementById('resend-btn');
+      const countdown = document.getElementById('countdown');
+      
+      resendBtn.disabled = true;
+      resendBtn.style.background = '#ccc';
+      resendBtn.style.cursor = 'not-allowed';
+      countdown.style.display = 'block';
+      
+      resendCountdown = seconds;
+      resendTimer = setInterval(() => {
+        countdown.textContent = `Please wait ${resendCountdown} seconds before requesting another code`;
+        resendCountdown--;
+        
+        if (resendCountdown < 0) {
+          clearInterval(resendTimer);
+          resendBtn.disabled = false;
+          resendBtn.style.background = '#0077cc';
+          resendBtn.style.cursor = 'pointer';
+          countdown.style.display = 'none';
+        }
+      }, 1000);
+    }
+    
+    function resendResetCode() {
+      fetch('{% url "resend_reset_code" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Password reset code has been sent to your email!');
+          startCountdown(60);
+        } else {
+          alert(data.error || 'Failed to send code. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+    }
+    
+    // Check if there's an active countdown on page load
+    const lastResendTime = sessionStorage.getItem('lastResetResendTime');
+    if (lastResendTime) {
+      const timePassed = Math.floor((Date.now() - parseInt(lastResendTime)) / 1000);
+      const remainingTime = 60 - timePassed;
+      if (remainingTime > 0) {
+        startCountdown(remainingTime);
+      }
+    }
+  </script>
+</body>
+</html>
